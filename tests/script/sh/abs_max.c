@@ -44,6 +44,8 @@ void abs_max(char* data, short itype, short ibytes, int numOfRows, int64_t* ts, 
      *(int64_t *)dataOutput=r;
 
    //   printf("abs_max out, dataoutput:%" PRId64", numOfOutput:%d\n", *(int64_t *)dataOutput, *numOfOutput);
+   }else {
+     *numOfOutput=0;
    }
 }
 
@@ -53,7 +55,7 @@ void abs_max_finalize(char* dataOutput, char* interBuf, int* numOfOutput, SUdfIn
    int i;
    //int64_t r = 0;
    // printf("abs_max_finalize dataoutput:%p:%d, numOfOutput:%d, buf:%p\n", dataOutput, *dataOutput, *numOfOutput, buf);
-   *numOfOutput=1;
+   // *numOfOutput=1;
    // printf("abs_max finalize, dataoutput:%" PRId64", numOfOutput:%d\n", *(int64_t *)dataOutput, *numOfOutput);
 }
 
@@ -91,4 +93,3 @@ int abs_max_init(SUdfInit* buf) {
 void abs_max_destroy(SUdfInit* buf) {
    // printf("abs_max destroy\n");
 }
-

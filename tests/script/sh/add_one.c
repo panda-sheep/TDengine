@@ -29,5 +29,3 @@ void add_one(char* data, short itype, short ibytes, int numOfRows, long long* ts
     //  printf("add_one out, numOfOutput:%d\n", *numOfOutput);
    }
 }
-
-

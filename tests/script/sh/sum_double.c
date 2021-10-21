@@ -43,7 +43,7 @@ void sum_double_finalize(char* dataOutput, char* interBuf, int* numOfOutput, SUd
    int i;
    int64_t r = 0;
   //  printf("sum_double_finalize dataoutput:%p:%"PRId64", numOfOutput:%d, buf:%p\n", dataOutput, *(int64_t*)dataOutput, *numOfOutput, buf);
-   *numOfOutput=1;
+  //  *numOfOutput=1;
    *(int64_t*)(buf->ptr)=*(int64_t*)dataOutput*2;
    *(int64_t*)dataOutput=*(int64_t*)(buf->ptr);
   //  printf("sum_double finalize, dataoutput:%"PRId64", numOfOutput:%d\n", *(int64_t *)dataOutput, *numOfOutput);
@@ -82,4 +82,3 @@ void sum_double_destroy(SUdfInit* buf) {
    free(buf->ptr);
   //  printf("sum_double destroy\n");
 }
-
