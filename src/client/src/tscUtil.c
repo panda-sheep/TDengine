@@ -289,7 +289,10 @@ bool tscNonOrderedProjectionQueryOnSTable(SQueryInfo* pQueryInfo, int32_t tableI
   if (!tscIsProjectionQueryOnSTable(pQueryInfo, tableIndex)) {
     return false;
   }
-
+  
+  if (pQueryInfo->groupbyExpr.orderIndex == -1) {
+    return false;
+  }
   // order by columnIndex exists, not a non-ordered projection query
   return pQueryInfo->order.orderColId < 0;
 }
