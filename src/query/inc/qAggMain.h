@@ -86,14 +86,34 @@ extern "C" {
 // #define TSDB_FUNC_HLL          41
 // #define TSDB_FUNC_MODE         42
 
-#define TSDB_FUNCSTATE_SO           0x1u    // single output
-#define TSDB_FUNCSTATE_MO           0x2u    // dynamic number of output, not multinumber of output e.g., TOP/BOTTOM
-#define TSDB_FUNCSTATE_STREAM       0x4u    // function avail for stream
-#define TSDB_FUNCSTATE_STABLE       0x8u    // function avail for super table
-#define TSDB_FUNCSTATE_OF           0x10u   // outer forward
-#define TSDB_FUNCSTATE_NEED_TS      0x20u   // timestamp is required during query processing
-#define TSDB_FUNCSTATE_SELECTIVITY  0x40u   // selectivity functions, can exists along with tag columns
+// single output
+#define TSDB_FUNCSTATE_SO           0x1u
+
+// dynamic number of output, not multi-number of output. e.g., TOP/BOTTOM
+#define TSDB_FUNCSTATE_MO           0x2u
+
+// function avail for stream
+#define TSDB_FUNCSTATE_STREAM       0x4u
+
+// function avail for super table
+#define TSDB_FUNCSTATE_STABLE       0x8u
+
+// outer forward - deprecated concept
+#define TSDB_FUNCSTATE_OF           0x10u
+
+// timestamp is required during query processing
+#define TSDB_FUNCSTATE_NEED_TS      0x20u
+
+// selectivity functions. e.g. min/max,top/bottom, first/last etc.
+// function have to set tag/ts via SQLFunctionCtx tagInfo itself. exist along with tag columns.
+#define TSDB_FUNCSTATE_SELECTIVITY  0x40u
+
+// computation functions that applies to columns of one row. e.g. ceil/floor/round
 #define TSDB_FUNCSTATE_SCALAR       0x80u
+
+// computation functions apply to multiple rows of the same table and generate multiple rows.
+// e.g. diff/csum/mavg. They exist with tag columns and support group by tbname.
+#define TSDB_FUNCSTATE_SINGLE_TABLE_MO 0x100u
 
 #define TSDB_BASE_FUNC_SO TSDB_FUNCSTATE_SO | TSDB_FUNCSTATE_STREAM | TSDB_FUNCSTATE_STABLE | TSDB_FUNCSTATE_OF
 #define TSDB_BASE_FUNC_MO TSDB_FUNCSTATE_MO | TSDB_FUNCSTATE_STREAM | TSDB_FUNCSTATE_STABLE | TSDB_FUNCSTATE_OF
@@ -233,6 +253,7 @@ int32_t isValidFunction(const char* name, int32_t len);
 #define IS_MULTIOUTPUT(x)         (((x)&TSDB_FUNCSTATE_MO) != 0)
 #define IS_SINGLEOUTPUT(x)        (((x)&TSDB_FUNCSTATE_SO) != 0)
 #define IS_OUTER_FORWARD(x)       (((x)&TSDB_FUNCSTATE_OF) != 0)
+#define IS_SCALAR_FUNCTION(x)     (((x)&TSDB_FUNCSTATE_SCALAR) != 0)
 
 // determine the real data need to calculated the result
 enum {
